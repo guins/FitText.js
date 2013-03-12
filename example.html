@@ -10,6 +10,16 @@
 		  color: #fff;
 		  font: 16px/1.8 sans-serif;
 		}
+		.notifcation{
+			background: rgba(0,0,0,0.2);
+			height: 30px;
+			line-height: 29px;
+			text-align: center;
+			font-size: 12px;
+		}
+		.notifcation.unfittext{
+			background: rgba(0,0,0,0.5);
+		}
 		.container {
 			width: 84%;
 			margin:0 auto;
@@ -40,6 +50,8 @@
 <body>
 
 	<div class="container">
+		<p class="notifcation fittext">Titles <u>are</u> squeeze with FitText</p>
+		<p class="notifcation unfittext">Titles <u>ARE NOT</u> squeeze with FitText</p>
 		<header>
 		<h1 id="fittext1">Squeeze with FitText</h1>
 		<h1 id="fittext2">Squeeze with FitText</h1>
@@ -56,7 +68,15 @@
 			fitText1 = $("#fittext1"),
 			fitText2 = $("#fittext2"),
 			fitText3 = $("#fittext3"),
+			fitNotif = $(".notifcation.fittext"),
+			unFitNotif = $(".notifcation.unfittext"),
 			fitTextAll = $("#fittext1, #fittext2, #fittext3");
+
+		function init()
+		{
+			manageFitTexts(false);
+			resizer();
+		}
 
 		function manageFitTexts($yepNope)
 		{
@@ -64,12 +84,17 @@
 				fitText1.fitText();
 				fitText2.fitText(1.2);
 				fitText3.fitText(1.1, { minFontSize: 50, maxFontSize: '75px' });
-				fitTextAll.css('background','');
+				
+				// user feedback
+				fitNotif.show();
+				unFitNotif.hide();
 			}
 			else {
-				fitText1.
-					unfitText().
-					css('background','rgba(0,0,0,0.5)');
+				fitTextAll.unfitText();
+
+				// user feedback
+				fitNotif.hide();
+				unFitNotif.show();
 			}
 
 			isFitTexts = $yepNope;
@@ -87,11 +112,11 @@
 			}
 		}
 
-		// Init
-		resizer();
-
 		// Event listenner
 		$(window).on('resize', resizer);
+
+		// Init
+		init();
 	</script>
 	
 </body>
