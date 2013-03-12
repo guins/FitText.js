@@ -51,9 +51,47 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
  	<script src="jquery.fittext.js"></script>
 	<script type="text/javascript">
-		$("#fittext1").fitText();
-		$("#fittext2").fitText(1.2);
-		$("#fittext3").fitText(1.1, { minFontSize: 50, maxFontSize: '75px' });
+		var isFitTexts = false,
+			fitLimit = 700,
+			fitText1 = $("#fittext1"),
+			fitText2 = $("#fittext2"),
+			fitText3 = $("#fittext3"),
+			fitTextAll = $("#fittext1, #fittext2, #fittext3");
+
+		function manageFitTexts($yepNope)
+		{
+			if( $yepNope ) {
+				fitText1.fitText();
+				fitText2.fitText(1.2);
+				fitText3.fitText(1.1, { minFontSize: 50, maxFontSize: '75px' });
+				fitTextAll.css('background','');
+			}
+			else {
+				fitText1.
+					unfitText().
+					css('background','rgba(0,0,0,0.5)');
+			}
+
+			isFitTexts = $yepNope;
+		}
+
+		function resizer()
+		{
+			var w = $(window).width();
+
+			if( !isFitTexts && w < fitLimit ) {
+				manageFitTexts(true);
+			}
+			else if ( isFitTexts && w >= fitLimit ) {
+				manageFitTexts(false);
+			}
+		}
+
+		// Init
+		resizer();
+
+		// Event listenner
+		$(window).on('resize', resizer);
 	</script>
 	
 </body>
